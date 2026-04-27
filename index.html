@@ -1,0 +1,443 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>AI-Native 产品观察台</title>
+<style>
+  :root{
+    --bg:#fafaf9;
+    --ink:#111;
+    --ink-2:#333;
+    --mute:#6b6b6b;
+    --line:#e5e5e2;
+    --line-2:#ececea;
+    --chip:#f1f1ef;
+    --hi:#000;
+    --new:#fff3b0;
+    --up:#e6f0ff;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
+    font-family:"PingFang SC","HarmonyOS Sans SC","Helvetica Neue",Arial,"Microsoft YaHei",sans-serif;
+    font-feature-settings:"ss01","cv11";-webkit-font-smoothing:antialiased}
+  a{color:var(--ink);text-underline-offset:3px;text-decoration-thickness:1px}
+  a:hover{color:#000}
+  .wrap{max-width:1240px;margin:0 auto;padding:56px 32px 120px}
+  header{border-bottom:1px solid var(--ink);padding-bottom:22px;margin-bottom:28px}
+  h1{font-size:40px;line-height:1.1;margin:0 0 10px;letter-spacing:-.5px}
+  .sub{color:var(--mute);font-size:14px;display:flex;gap:18px;flex-wrap:wrap;align-items:center}
+  .sub b{color:var(--ink);font-weight:600}
+  .lede{max-width:780px;color:var(--ink-2);font-size:15px;line-height:1.7;margin:18px 0 0}
+  .view-switch{display:flex;gap:0;margin:22px 0 14px;border:1px solid var(--ink);border-radius:999px;overflow:hidden;width:fit-content;font-size:12.5px}
+  .view-switch button{border:none;background:#fff;color:var(--ink);padding:8px 18px;cursor:pointer;font-family:inherit}
+  .view-switch button.on{background:var(--ink);color:#fff}
+  .view-label{font-size:11px;color:var(--mute);letter-spacing:.08em;text-transform:uppercase;margin:0 10px;align-self:center}
+  .toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0 14px;align-items:center}
+  .chip{border:1px solid var(--line);background:#fff;padding:6px 12px;border-radius:999px;font-size:12.5px;color:var(--ink-2);cursor:pointer;user-select:none;transition:.15s}
+  .chip:hover{border-color:var(--ink)}
+  .chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .search{flex:1;min-width:220px;border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 14px;font-size:13px;outline:none}
+  .search:focus{border-color:var(--ink)}
+  table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);font-size:13.5px}
+  th,td{padding:14px 14px;border-bottom:1px solid var(--line-2);vertical-align:top;text-align:left}
+  th{position:sticky;top:0;background:#fff;font-weight:600;font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--mute);border-bottom:1px solid var(--ink)}
+  tr:last-child td{border-bottom:none}
+  tr:hover td{background:#fafaf7}
+  td.name{font-weight:600;min-width:140px}
+  td.name small{display:block;font-weight:400;color:var(--mute);font-size:12px;margin-top:2px}
+  td.cat{white-space:nowrap}
+  .tag{display:inline-block;font-size:11px;padding:2px 8px;border:1px solid var(--line);border-radius:999px;color:var(--ink-2);background:#fff;margin:0 4px 4px 0}
+  .tag.new{background:var(--new);border-color:#e2cf65}
+  .tag.up{background:var(--up);border-color:#bcd0ee}
+  .tag.cap-gen{background:#fff;border-color:#b7b7b5}
+  .tag.cap-agent{background:#111;color:#fff;border-color:#111}
+  .tag.cap-embed{background:#efefec;border-color:#c6c6c2}
+  td.why{min-width:260px;color:var(--ink-2);line-height:1.65}
+  td.design{min-width:280px;color:var(--ink-2);line-height:1.65}
+  td.link a{word-break:break-all;font-size:12.5px;color:var(--mute)}
+  td.link a:hover{color:var(--ink)}
+  .footnote{margin-top:28px;color:var(--mute);font-size:12.5px;line-height:1.7}
+  .changelog{margin-top:40px;border-top:1px solid var(--ink);padding-top:22px}
+  .changelog h2{font-size:18px;margin:0 0 10px}
+  .changelog ul{padding-left:18px;color:var(--ink-2);font-size:13px;line-height:1.8}
+  .kbd{border:1px solid var(--line);background:#fff;border-radius:4px;padding:1px 6px;font-size:11px;color:var(--mute)}
+  .count{color:var(--mute);font-size:12.5px;margin-left:6px}
+  .empty{padding:40px;text-align:center;color:var(--mute);font-size:13px;background:#fff;border:1px solid var(--line);border-top:none}
+  .cap-intro{font-size:12.5px;color:var(--mute);margin:4px 0 14px;line-height:1.7}
+  .cap-intro b{color:var(--ink);font-weight:600}
+  @media (max-width:820px){
+    .wrap{padding:32px 18px 80px}
+    h1{font-size:30px}
+    table{font-size:12.5px}
+    th,td{padding:10px 10px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>AI-Native 产品观察台</h1>
+    <div class="sub">
+      <span>最近更新 <b id="last-updated">2026-04-27</b></span>
+      <span>版本 <b id="version">v1</b></span>
+      <span>收录 <b id="total-count">0</b> 款</span>
+      <span>刷新节奏 <b>每 3 天一次 · 每轮新增 ≤ 3 款</b></span>
+    </div>
+    <p class="lede">
+      只收录「如果把 AI 拿掉，产品就不存在」的那一类。重点看它们
+      <b>为什么好</b>（解决了过去解决不了的问题）和
+      <b>为什么这么设计</b>（把 AI 的不确定性/生成性变成可用体验的具体手法）。
+      <span class="tag new">NEW</span> 本轮新增
+      <span class="tag up">UPD</span> 本轮有更新
+    </p>
+  </header>
+
+  <div class="view-switch" role="tablist">
+    <span class="view-label">视图</span>
+    <button class="on" data-view="paradigm">按交互范式</button>
+    <button data-view="capability">按 AI 能力</button>
+  </div>
+
+  <p class="cap-intro" id="cap-intro" style="display:none">
+    <b>生成型</b>：用户给提示、AI 产出成品（图/文/视频/代码），人在前、AI 在后。
+    <b>Agent 型</b>：AI 拥有动作权，能自己点击/调用工具/跑长任务，人在后、AI 在前。
+    <b>嵌入型</b>：AI 隐身在既有工作流里，不改变用户主动作，只在关键节点补能力。
+  </p>
+
+  <div class="toolbar" id="toolbar-paradigm">
+    <span class="chip on" data-cat="all">全部 <span class="count" id="c-all"></span></span>
+    <span class="chip" data-cat="agent">Agent/自动化</span>
+    <span class="chip" data-cat="coding">编程</span>
+    <span class="chip" data-cat="search">搜索/浏览器</span>
+    <span class="chip" data-cat="creative">创作(图/视频/音乐)</span>
+    <span class="chip" data-cat="design">设计/建站</span>
+    <span class="chip" data-cat="productivity">生产力/知识</span>
+    <span class="chip" data-cat="meeting">会议/沟通</span>
+    <span class="chip" data-cat="vertical">垂直行业</span>
+    <span class="chip" data-cat="cn">🇨🇳 国内</span>
+    <input class="search" id="q" placeholder="搜索产品名 / 关键词 / 设计亮点…" />
+  </div>
+
+  <div class="toolbar" id="toolbar-capability" style="display:none">
+    <span class="chip on" data-capcat="all">全部 <span class="count" id="c-cap-all"></span></span>
+    <span class="chip" data-capcat="gen">生成型 <span class="count" id="c-cap-gen"></span></span>
+    <span class="chip" data-capcat="agent">Agent 型 <span class="count" id="c-cap-agent"></span></span>
+    <span class="chip" data-capcat="embed">嵌入型 <span class="count" id="c-cap-embed"></span></span>
+    <input class="search" id="q2" placeholder="搜索产品名 / 关键词 / 设计亮点…" />
+  </div>
+
+  <table id="t">
+    <thead>
+      <tr>
+        <th style="width:15%">产品</th>
+        <th style="width:11%" id="th-cat">类别</th>
+        <th style="width:26%">为什么好（解决了什么）</th>
+        <th style="width:30%">为什么这么设计（设计亮点）</th>
+        <th style="width:18%">链接</th>
+      </tr>
+    </thead>
+    <tbody id="tb"></tbody>
+  </table>
+
+  <div class="changelog">
+    <h2>更新日志</h2>
+    <ul id="changelog"></ul>
+  </div>
+
+  <p class="footnote">
+    数据由每 3 天一次的自动检索 + 人工复核生成。筛选原则：① AI 是产品核心而非功能贴皮；
+    ② 有独立界面语言或新的交互范式；③ 有真实用户留存或业内公认设计影响力。
+    点击顶部分类可筛选，<span class="kbd">/</span> 聚焦搜索框。
+  </p>
+</div>
+
+<script>
+/* ============================================================
+   数据：每次更新只需改 products 与 changelog
+   status: 'new' | 'updated' | 'stable'
+   capability: 'gen'(生成型) | 'agent'(Agent型) | 'embed'(嵌入型)
+   ============================================================ */
+const META = { version: 'v1', lastUpdated: '2026-04-27' };
+
+const products = [
+  // === Agent / 自动化 ===
+  { name:'Manus', url:'https://manus.im', cat:'agent', cats:['agent'], capability:'agent', status:'new',
+    tagline:'通用 AI Agent，浏览器里跑完整的长任务',
+    why:'把「给指令—等结果」做成真实的委托关系：能自己打开网页、查资料、写代码、导出成品，真正替你完成一类白领工作流，而不只是产出一段文字。',
+    design:'用「虚拟电脑窗口 + 任务重放」作为主界面——你能看它在点什么、读了什么，过程可审计；Todo 面板把 Agent 的计划外显，让人类只在关键节点介入，把不可控变成可控。'},
+  { name:'Devin', url:'https://devin.ai', cat:'agent', cats:['agent','coding'], capability:'agent', status:'stable',
+    tagline:'自主软件工程师',
+    why:'第一个把「开一个 ticket，收一个 PR」流程跑通的 Agent，替代的是「初级工程师的一整天」，而不是一次代码补全。',
+    design:'界面是带终端+浏览器+编辑器的沙盒工位，Agent 在里面工作、你像在看屏幕共享；用「计划→执行→回放」三段式降低黑盒感。'},
+  { name:'Cal.com + AI Scheduler', url:'https://cal.com/ai', cat:'agent', cats:['agent','productivity'], capability:'agent', status:'stable',
+    tagline:'会自己发邮件约会议的调度助手',
+    why:'跨公司约会议这件事，第一次不需要人来回倒时间——Agent 用你邮箱的身份直接沟通并落到日历。',
+    design:'把 Agent 伪装成一个签名邮箱地址（@yourdomain），契合既有协作礼仪；所有动作在一个时间线面板里可撤销，让「代你说话」不失控。'},
+
+  // === 编程 ===
+  { name:'Cursor', url:'https://cursor.com', cat:'coding', cats:['coding'], capability:'embed', status:'updated',
+    tagline:'AI-first 代码编辑器',
+    why:'把 IDE 的每个动作（补全、重构、搜索、调试）都重造成「和代码库对话」，代码库理解深度远超 Copilot 插件式方案。',
+    design:'核心是 Cmd+K 唤起的内联编辑——选中代码、说需求、原地 diff 预览；把「接受/拒绝」做成肌肉记忆，降低对 AI 错误的心理成本。'},
+  { name:'Claude Code', url:'https://www.anthropic.com/claude-code', cat:'coding', cats:['coding','agent'], capability:'agent', status:'updated',
+    tagline:'终端里的 Agent 式编程',
+    why:'跳出 IDE，直接让 Agent 在项目根目录跑，能跨文件规划、执行、提交。适合重构和长任务。',
+    design:'选择终端而非 GUI，是因为终端本身就是最通用的「工具调用接口」；纯文本流 + 可中断，让用户随时接管，契合程序员心智。'},
+  { name:'v0 by Vercel', url:'https://v0.dev', cat:'design', cats:['design','coding'], capability:'gen', status:'stable',
+    tagline:'从一句话到可部署前端',
+    why:'产品经理和设计师第一次能绕过前端排期，拿到生产级代码而非图片；和 Next.js/Shadcn 生态深度绑定，产出能被工程接手。',
+    design:'左对话右实时预览 + 可切到源码，所见即可改；每次生成都生成分支版本，鼓励试错，把 AI 的不确定性变成可比较的选项。'},
+  { name:'Lovable', url:'https://lovable.dev', cat:'design', cats:['design','coding'], capability:'gen', status:'stable',
+    tagline:'一句话生成全栈应用',
+    why:'把 Supabase、登录、支付、部署都打包，让非技术人一次性拥有能跑的产品，而不是 demo。',
+    design:'强调「聊一次改一次」的对话回路，错误信息也被翻译成自然语言追问；通过 GitHub 同步保留专业开发者的逃生通道。'},
+  { name:'Replit Agent', url:'https://replit.com', cat:'coding', cats:['coding','agent'], capability:'agent', status:'stable',
+    tagline:'云端一站式 Agent 开发',
+    why:'从「想法」到「上线 URL」不用离开浏览器，把环境配置、依赖、数据库、部署统统黑盒化。',
+    design:'Agent 在侧栏讲人话+在主区实操，新手看得到每一步在干嘛；用「预览链接立刻可分享」作为激励，抓住 creator 心流。'},
+
+  // === 搜索 / 浏览器 ===
+  { name:'Perplexity', url:'https://www.perplexity.ai', cat:'search', cats:['search'], capability:'gen', status:'stable',
+    tagline:'带引用的答案引擎',
+    why:'把搜索从「十条蓝色链接」重构成「一个带来源的答案 + 可追问」，对知识工作者是刚需级替代。',
+    design:'引用数字嵌在句中且可悬停预览，建立了「AI 写的也能核查」的信任范式；Follow-up 建议把搜索变成连续对话。'},
+  { name:'ChatGPT Atlas', url:'https://openai.com/atlas', cat:'search', cats:['search','agent'], capability:'agent', status:'new',
+    tagline:'OpenAI 的 AI 原生浏览器',
+    why:'把 Agent 接进浏览器上下文——你看什么它就懂什么，可以代你点、代你填、代你总结整个会话。',
+    design:'右侧常驻 AI 侧栏作为「第二个标签页」；Agent 执行时页面会被接管但仍可见，用可见度换信任。'},
+  { name:'Perplexity Comet', url:'https://www.perplexity.ai/comet', cat:'search', cats:['search','agent'], capability:'agent', status:'new',
+    tagline:'把答案引擎装进浏览器',
+    why:'在浏览当前页时就能追问，打破了「浏览—复制—到 ChatGPT—再回来」的割裂。',
+    design:'地址栏即提问栏（omnibox 融合），降低切换成本；对任意选中内容一键发起 Agent 任务。'},
+  { name:'Dia (The Browser Company)', url:'https://www.diabrowser.com', cat:'search', cats:['search'], capability:'embed', status:'stable',
+    tagline:'以技能为中心的浏览器',
+    why:'Arc 团队的再出发，用自然语言写一个 Skill（本质是可复用的 prompt+动作）来个性化浏览器，用户从消费者变成作者。',
+    design:'右侧抽屉 Chat 与页面共享上下文；Skills 列表即个人 OS，是对「人人都该有自己 AI」这一主张的设计表达。'},
+
+  // === 创作：图/视频/音乐 ===
+  { name:'Midjourney', url:'https://www.midjourney.com', cat:'creative', cats:['creative'], capability:'gen', status:'stable',
+    tagline:'审美最稳的图像生成',
+    why:'默认出图就好看，降低了创作门槛；V7 起的角色/风格一致性让它从玩具变成生产工具。',
+    design:'曾经用 Discord 制造社区感与围观红利，现在 Web 端把「所有人的作品流」作为灵感源——生成行为天然社交化。'},
+  { name:'Ideogram', url:'https://ideogram.ai', cat:'creative', cats:['creative','design'], capability:'gen', status:'stable',
+    tagline:'最会写字的图像模型',
+    why:'精准生成带排版的海报/logo/插画，补足其他模型「画字必乱码」的短板，直接吃掉平面设计草图需求。',
+    design:'画布编辑器支持局部重绘+文字层独立控制，把生成结果当作分层文件而非扁平图——更接近设计师工作习惯。'},
+  { name:'Runway', url:'https://runway.ml', cat:'creative', cats:['creative'], capability:'gen', status:'stable',
+    tagline:'专业向 AI 视频工作流',
+    why:'Gen-4 之后镜头一致性、运动控制到位，影视/广告真实在用；有 Motion Brush、相机控制等可控性工具。',
+    design:'界面像 NLE 剪辑器 + 节点合成，不让 AI 取代时间线，而是在时间线里多加一类「AI 轨道」，尊重专业工作流。'},
+  { name:'Sora', url:'https://sora.com', cat:'creative', cats:['creative'], capability:'gen', status:'updated',
+    tagline:'OpenAI 的视频生成与社区',
+    why:'Sora 2 把可控性和音画同步做到了社交短视频可用；重点不只是模型，而是把「人人是导演」做成了 feed。',
+    design:'用类 TikTok 的 feed 包裹生成能力，Remix 按钮让每个作品都是半成品；用社交动力反哺模型对齐。'},
+  { name:'Suno', url:'https://suno.com', cat:'creative', cats:['creative'], capability:'gen', status:'stable',
+    tagline:'一句话生成整首歌',
+    why:'第一次让不会乐器的人可以把情绪落成一首带人声的歌，完成了音乐创作民主化的关键跳跃。',
+    design:'主界面是双版本 A/B 并排试听，用「选一个继续」代替「调参数」，彻底回避了专业音乐软件的门槛。'},
+  { name:'HeyGen', url:'https://heygen.com', cat:'creative', cats:['creative','vertical'], capability:'gen', status:'stable',
+    tagline:'AI 数字人视频',
+    why:'企业培训/营销/本地化视频的成本从「一个拍摄团队」压到「一个 prompt」，多语言口型同步是决定性能力。',
+    design:'把流程拆成「选人—写稿—生成」三步向导，而非自由画布；把不可预测的 AI 包成确定性的模板，面向非创意用户。'},
+  { name:'Krea', url:'https://www.krea.ai', cat:'creative', cats:['creative','design'], capability:'gen', status:'stable',
+    tagline:'实时 AI 创作画布',
+    why:'实时生成（边画边出）把 AI 从「提交—等待」变成「即兴演奏」，设计师第一次有了和 AI 的节奏感。',
+    design:'画布+实时预览+风格参考图的三区布局，让提示词、草稿、结果同屏可见，对应设计师的手眼协调习惯。'},
+
+  // === 生产力 / 知识 ===
+  { name:'Notion AI', url:'https://www.notion.com/product/ai', cat:'productivity', cats:['productivity'], capability:'embed', status:'stable',
+    tagline:'在文档和数据库里的 AI',
+    why:'把 AI 嵌入到既有工作空间的每个格子里，最大化已有语料的价值，不需要把内容搬家。',
+    design:'空格唤起 AI，结果以块的形式出现并可直接编辑；内嵌而非弹窗的选择保留了用户对文档的主权。'},
+  { name:'Granola', url:'https://granola.ai', cat:'meeting', cats:['meeting','productivity'], capability:'embed', status:'stable',
+    tagline:'AI 会议笔记',
+    why:'不当机器人入会、不录全文，而是把你自己的潦草笔记补全成正式纪要——尊重「在场」的社交礼仪。',
+    design:'左栏原笔记 + 右栏 AI 扩写，留下人类意图与 AI 产出的清晰分界；会后可 @Granola 连续追问，把会议变成知识资产。'},
+  { name:'Mem', url:'https://get.mem.ai', cat:'productivity', cats:['productivity'], capability:'embed', status:'stable',
+    tagline:'自组织的 AI 笔记',
+    why:'没有文件夹，所有笔记靠 AI 自动关联和召回，赌的是「检索比整理重要」——在信息过载下站得住脚。',
+    design:'极简卡片流 + 自然语言搜索；AI 生成的「相关笔记」作为副产物浮出水面，把组织从用户动作改成副作用。'},
+  { name:'Raycast + AI', url:'https://www.raycast.com/ai', cat:'productivity', cats:['productivity'], capability:'embed', status:'stable',
+    tagline:'命令栏级 AI 入口',
+    why:'把 AI 放进全局快捷键里，打字—回答—回到原应用只要 2 秒，是效率极客心中的系统级 AI 入口。',
+    design:'严格遵循 macOS 键盘优先的审美与动效；AI Commands 允许用户自定义带参数的小型 Agent，像写 alias 一样顺手。'},
+  { name:'Cluely', url:'https://cluely.com', cat:'productivity', cats:['productivity'], capability:'embed', status:'new',
+    tagline:'常驻屏幕的 AI 副驾',
+    why:'把 AI 做成「在你屏幕上」的悬浮窗，能看到你在看什么、说什么，实时给提示——适合面试、通话、客服场景。',
+    design:'极薄悬浮层 + 快捷键唤起 + 默认半透明，只在需要时显形；推动了 AI-as-overlay 这一新交互范式的讨论。'},
+
+  // === 设计 / 建站 ===
+  { name:'Figma Make', url:'https://www.figma.com/make/', cat:'design', cats:['design','coding'], capability:'gen', status:'updated',
+    tagline:'Figma 里原生的设计转代码',
+    why:'让设计源文件直接生成能跑的前端，闭合了 Figma 过去最痛的「到代码就断掉」一环。',
+    design:'不做全新工具，而是把 Make 嵌入现有 Figma 上下文，沿用变量/组件系统——尊重设计师已形成的工程化资产。'},
+  { name:'Galileo AI', url:'https://www.usegalileo.ai', cat:'design', cats:['design'], capability:'gen', status:'stable',
+    tagline:'生成高保真 UI 设计稿',
+    why:'一句话出一套成体系的界面，直接以可编辑 Figma 文件交付，拉平了「想法到设计稿」的距离。',
+    design:'输出是结构化设计而非位图，可接入既有 design system；把 AI 做成「实习设计师」而非「图片生成器」。'},
+
+  // === 垂直行业 ===
+  { name:'Harvey', url:'https://www.harvey.ai', cat:'vertical', cats:['vertical'], capability:'embed', status:'stable',
+    tagline:'面向律所的 AI 工作台',
+    why:'合规、引用、工作流嵌入到 Top 律所流程中，证明了「AI 原生 = 深入垂直工作流」才是护城河。',
+    design:'界面贴近法律工作台习惯（工作空间/文书/条款库），而非通用 chat；每条输出都可溯源到具体文件段落。'},
+  { name:'Abridge', url:'https://www.abridge.com', cat:'vertical', cats:['vertical'], capability:'embed', status:'stable',
+    tagline:'诊间对话→结构化病历',
+    why:'把医生写病历的时间还给患者，EHR 集成深度是医院级采购的关键；是「隐形 AI」的范本。',
+    design:'APP 只有一个录音按钮 + 结构化摘要；AI 努力消失，让医生与患者的交互成为主角。'},
+  { name:'Captions', url:'https://www.captions.ai', cat:'creative', cats:['creative','vertical'], capability:'gen', status:'stable',
+    tagline:'短视频创作者的 AI 工作室',
+    why:'眼神矫正、字幕、配音、剪辑一键化，让「一个人一台手机做内容」真正可持续。',
+    design:'每个 AI 能力都做成独立的竖屏卡片，符合创作者的移动端操作习惯，而不是把桌面 NLE 缩小。'},
+
+  // === 🇨🇳 国内 ===
+  { name:'豆包 Doubao', url:'https://www.doubao.com', cat:'cn', cats:['cn','productivity'], capability:'gen', status:'updated',
+    tagline:'字节的 AI 原生入口',
+    why:'把 AI 助手、角色对话、图像/视频生成、搜索统合进一个日活过亿的超级入口，形成国内第一梯队。',
+    design:'移动优先 + 沉浸全屏对话 + 右下语音 orb，生硬的输入框被弱化；让 AI 像朋友一样在你生活里在线。'},
+  { name:'Kimi', url:'https://kimi.moonshot.cn', cat:'cn', cats:['cn','productivity'], capability:'gen', status:'stable',
+    tagline:'长上下文+联网的研究型助手',
+    why:'超长上下文让「读论文/财报/整本书」的使用场景首次成立；K2 后在 Agent 任务上也能打。',
+    design:'结果以分节长文呈现并附引用，面向知识工作者的严肃阅读审美；侧栏保留研究助手的会话树状结构。'},
+  { name:'即梦 / Seedream', url:'https://jimeng.jianying.com', cat:'cn', cats:['cn','creative'], capability:'gen', status:'updated',
+    tagline:'剪映背后的图/视频生成',
+    why:'Seedream/Seedance 模型质量冲到第一梯队，且直通抖音/剪映生态，从工具即刻进入分发。',
+    design:'工具选择像积木（图生图、图生视频、风格参考），UI 贴近移动端创作者习惯；把专业术语翻译成动词。'},
+  { name:'智谱·清言 AutoGLM', url:'https://chatglm.cn', cat:'cn', cats:['cn','agent'], capability:'agent', status:'stable',
+    tagline:'国内通用 Agent 代表',
+    why:'AutoGLM 把「手机上代你点外卖/订票」做通，挑战了「App 图标作为入口」的假设，是国产 Agent 的重要尝试。',
+    design:'在手机侧边常驻半透明悬浮球，任务面板以语音 + 可视化操作轨迹呈现，契合移动使用情境。'},
+];
+
+const changelog = [
+  { date: '2026-04-27', text: 'v1 初版：覆盖 Agent / 编程 / 搜索 / 创作 / 设计 / 生产力 / 垂直 / 国内 共 8 大类 30+ 款 AI-native 产品，并新增「按 AI 能力」第二视图（生成型 / Agent 型 / 嵌入型）。' },
+];
+
+/* ============================================================ */
+
+const tb = document.getElementById('tb');
+const q  = document.getElementById('q');
+const q2 = document.getElementById('q2');
+let currentView = 'paradigm';  // 'paradigm' | 'capability'
+let activeCat = 'all';
+let activeCap = 'all';
+
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+
+function badge(status){
+  if(status === 'new') return '<span class="tag new">NEW</span>';
+  if(status === 'updated') return '<span class="tag up">UPD</span>';
+  return '';
+}
+function capBadge(cap){
+  if(cap === 'gen')   return '<span class="tag cap-gen">生成型</span>';
+  if(cap === 'agent') return '<span class="tag cap-agent">Agent 型</span>';
+  if(cap === 'embed') return '<span class="tag cap-embed">嵌入型</span>';
+  return '';
+}
+function labelOf(c){
+  return ({
+    agent:'Agent', coding:'编程', search:'搜索/浏览器', creative:'创作',
+    design:'设计/建站', productivity:'生产力', meeting:'会议', vertical:'垂直', cn:'🇨🇳 国内'
+  })[c] || c;
+}
+
+function render(){
+  const kw = (currentView === 'paradigm' ? q.value : q2.value).trim().toLowerCase();
+  const rows = products.filter(p=>{
+    const blob = (p.name+' '+(p.tagline||'')+' '+p.why+' '+p.design).toLowerCase();
+    const kwOk = !kw || blob.includes(kw);
+    if(!kwOk) return false;
+    if(currentView === 'paradigm'){
+      return activeCat==='all' || (p.cats||[p.cat]).includes(activeCat);
+    } else {
+      return activeCap==='all' || p.capability === activeCap;
+    }
+  });
+
+  // 切换表头
+  document.getElementById('th-cat').textContent = currentView === 'paradigm' ? '类别' : 'AI 能力';
+
+  if(rows.length === 0){
+    tb.innerHTML = '<tr><td colspan="5" class="empty">没有匹配的产品。换个关键词试试？</td></tr>';
+  } else {
+    tb.innerHTML = rows.map(p=>{
+      const catCell = currentView === 'paradigm'
+        ? (p.cats||[p.cat]).map(c=>`<span class="tag">${labelOf(c)}</span>`).join('')
+        : capBadge(p.capability);
+      return `
+        <tr>
+          <td class="name">
+            ${escapeHtml(p.name)} ${badge(p.status)}
+            <small>${escapeHtml(p.tagline||'')}</small>
+          </td>
+          <td class="cat">${catCell}</td>
+          <td class="why">${p.why}</td>
+          <td class="design">${p.design}</td>
+          <td class="link"><a href="${p.url}" target="_blank" rel="noopener">${p.url.replace(/^https?:\/\//,'')}</a></td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  // 更新计数
+  document.getElementById('total-count').textContent = products.length;
+  document.getElementById('c-all').textContent = '('+products.length+')';
+  const capCount = k => products.filter(p=>p.capability===k).length;
+  document.getElementById('c-cap-all').textContent   = '('+products.length+')';
+  document.getElementById('c-cap-gen').textContent   = '('+capCount('gen')+')';
+  document.getElementById('c-cap-agent').textContent = '('+capCount('agent')+')';
+  document.getElementById('c-cap-embed').textContent = '('+capCount('embed')+')';
+}
+
+/* 视图切换 */
+document.querySelectorAll('.view-switch button').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.view-switch button').forEach(b=>b.classList.remove('on'));
+    btn.classList.add('on');
+    currentView = btn.dataset.view;
+    document.getElementById('toolbar-paradigm').style.display   = currentView==='paradigm' ? '' : 'none';
+    document.getElementById('toolbar-capability').style.display = currentView==='capability' ? '' : 'none';
+    document.getElementById('cap-intro').style.display          = currentView==='capability' ? '' : 'none';
+    render();
+  });
+});
+
+/* paradigm chips */
+document.querySelectorAll('#toolbar-paradigm .chip').forEach(el=>{
+  el.addEventListener('click',()=>{
+    document.querySelectorAll('#toolbar-paradigm .chip').forEach(x=>x.classList.remove('on'));
+    el.classList.add('on');
+    activeCat = el.dataset.cat;
+    render();
+  });
+});
+/* capability chips */
+document.querySelectorAll('#toolbar-capability .chip').forEach(el=>{
+  el.addEventListener('click',()=>{
+    document.querySelectorAll('#toolbar-capability .chip').forEach(x=>x.classList.remove('on'));
+    el.classList.add('on');
+    activeCap = el.dataset.capcat;
+    render();
+  });
+});
+q.addEventListener('input', render);
+q2.addEventListener('input', render);
+document.addEventListener('keydown', e=>{
+  if(e.key === '/' && document.activeElement !== q && document.activeElement !== q2){
+    e.preventDefault();
+    (currentView==='paradigm' ? q : q2).focus();
+  }
+});
+
+/* meta */
+document.getElementById('last-updated').textContent = META.lastUpdated;
+document.getElementById('version').textContent = META.version;
+document.getElementById('changelog').innerHTML =
+  changelog.map(c=>`<li><b>${c.date}</b> — ${c.text}</li>`).join('');
+
+render();
+</script>
+</body>
+</html>
