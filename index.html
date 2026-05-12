@@ -79,8 +79,8 @@
   <header>
     <h1>AI-Native 产品观察台</h1>
     <div class="sub">
-      <span>最近更新 <b id="last-updated">2026-04-27</b></span>
-      <span>版本 <b id="version">v1</b></span>
+      <span>最近更新 <b id="last-updated">2026-05-12</b></span>
+      <span>版本 <b id="version">v2</b></span>
       <span>收录 <b id="total-count">0</b> 款</span>
       <span>刷新节奏 <b>每 3 天一次 · 每轮新增 ≤ 3 款</b></span>
     </div>
@@ -158,13 +158,13 @@
    status: 'new' | 'updated' | 'stable'
    capability: 'gen'(生成型) | 'agent'(Agent型) | 'embed'(嵌入型)
    ============================================================ */
-const META = { version: 'v1', lastUpdated: '2026-04-27' };
+const META = { version: 'v2', lastUpdated: '2026-05-12' };
 
 const products = [
   // === Agent / 自动化 ===
-  { name:'Manus', url:'https://manus.im', cat:'agent', cats:['agent'], capability:'agent', status:'new',
+  { name:'Manus', url:'https://manus.im', cat:'agent', cats:['agent'], capability:'agent', status:'updated',
     tagline:'通用 AI Agent，浏览器里跑完整的长任务',
-    why:'把「给指令—等结果」做成真实的委托关系：能自己打开网页、查资料、写代码、导出成品，真正替你完成一类白领工作流，而不只是产出一段文字。',
+    why:'把「给指令—等结果」做成真实的委托关系：能自己打开网页、查资料、写代码、导出成品，真正替你完成一类白领工作流，而不只是产出一段文字。本轮被 Meta 收购，并推出常驻的 Cloud Computer，让 Agent 拥有 7×24 持久化工位。',
     design:'用「虚拟电脑窗口 + 任务重放」作为主界面——你能看它在点什么、读了什么，过程可审计；Todo 面板把 Agent 的计划外显，让人类只在关键节点介入，把不可控变成可控。'},
   { name:'Devin', url:'https://devin.ai', cat:'agent', cats:['agent','coding'], capability:'agent', status:'stable',
     tagline:'自主软件工程师',
@@ -178,9 +178,9 @@ const products = [
   // === 编程 ===
   { name:'Cursor', url:'https://cursor.com', cat:'coding', cats:['coding'], capability:'embed', status:'updated',
     tagline:'AI-first 代码编辑器',
-    why:'把 IDE 的每个动作（补全、重构、搜索、调试）都重造成「和代码库对话」，代码库理解深度远超 Copilot 插件式方案。',
-    design:'核心是 Cmd+K 唤起的内联编辑——选中代码、说需求、原地 diff 预览；把「接受/拒绝」做成肌肉记忆，降低对 AI 错误的心理成本。'},
-  { name:'Claude Code', url:'https://www.anthropic.com/claude-code', cat:'coding', cats:['coding','agent'], capability:'agent', status:'updated',
+    why:'把 IDE 的每个动作（补全、重构、搜索、调试）都重造成「和代码库对话」，代码库理解深度远超 Copilot 插件式方案。Cursor 2.0 推出自研 Composer 模型与 Multi-Agents 并行编排，押注「人指挥多 Agent」工作流。',
+    design:'核心是 Cmd+K 唤起的内联编辑——选中代码、说需求、原地 diff 预览；把「接受/拒绝」做成肌肉记忆，降低对 AI 错误的心理成本。新版 Plan 视图把 Agent 的中间步骤平铺成可干预的列表，逐步去黑盒化。'},
+  { name:'Claude Code', url:'https://www.anthropic.com/claude-code', cat:'coding', cats:['coding','agent'], capability:'agent', status:'stable',
     tagline:'终端里的 Agent 式编程',
     why:'跳出 IDE，直接让 Agent 在项目根目录跑，能跨文件规划、执行、提交。适合重构和长任务。',
     design:'选择终端而非 GUI，是因为终端本身就是最通用的「工具调用接口」；纯文本流 + 可中断，让用户随时接管，契合程序员心智。'},
@@ -196,17 +196,25 @@ const products = [
     tagline:'云端一站式 Agent 开发',
     why:'从「想法」到「上线 URL」不用离开浏览器，把环境配置、依赖、数据库、部署统统黑盒化。',
     design:'Agent 在侧栏讲人话+在主区实操，新手看得到每一步在干嘛；用「预览链接立刻可分享」作为激励，抓住 creator 心流。'},
+  { name:'Zed', url:'https://zed.dev', cat:'coding', cats:['coding','agent'], capability:'embed', status:'new',
+    tagline:'Rust + GPU 写的 AI 原生编辑器',
+    why:'2026/4/29 正式发布 1.0：用 Rust 自研 GPUI 渲染框架，对标 VS Code 的 Electron 性能瓶颈；把 Agent 深度内嵌成第一公民，而非插件。证明了「编辑器本身的性能护城河」仍是 AI 时代差异化的关键。',
+    design:'整个 UI 60fps GPU 渲染，AI 面板与编辑器共用同一帧；并行 Agent 以「分屏 worktree」方式呈现——每个 Agent 各占一片代码工区，互不干扰，照顾程序员对空间分配的直觉。'},
+  { name:'Kilo Code', url:'https://kilocode.ai', cat:'coding', cats:['coding','agent'], capability:'agent', status:'new',
+    tagline:'开源 VS Code 编程 Agent',
+    why:'走「自带 API key、500+ 模型零加价」的商业反路径，把利润让渡给开发者；并行 Agent + diff 审查，让多任务编码从单线程变并行。和 Cursor 形成「闭源服务 vs 开源工具链」的清晰分野。',
+    design:'扩展形态而非独立 IDE，尊重开发者已有的 VS Code 肌肉记忆；Agent 输出统一进入 diff 视图等待审查，把「AI 写代码」做成 PR 评审节奏，而非即时覆盖。'},
 
   // === 搜索 / 浏览器 ===
   { name:'Perplexity', url:'https://www.perplexity.ai', cat:'search', cats:['search'], capability:'gen', status:'stable',
     tagline:'带引用的答案引擎',
     why:'把搜索从「十条蓝色链接」重构成「一个带来源的答案 + 可追问」，对知识工作者是刚需级替代。',
     design:'引用数字嵌在句中且可悬停预览，建立了「AI 写的也能核查」的信任范式；Follow-up 建议把搜索变成连续对话。'},
-  { name:'ChatGPT Atlas', url:'https://openai.com/atlas', cat:'search', cats:['search','agent'], capability:'agent', status:'new',
+  { name:'ChatGPT Atlas', url:'https://openai.com/atlas', cat:'search', cats:['search','agent'], capability:'agent', status:'stable',
     tagline:'OpenAI 的 AI 原生浏览器',
     why:'把 Agent 接进浏览器上下文——你看什么它就懂什么，可以代你点、代你填、代你总结整个会话。',
     design:'右侧常驻 AI 侧栏作为「第二个标签页」；Agent 执行时页面会被接管但仍可见，用可见度换信任。'},
-  { name:'Perplexity Comet', url:'https://www.perplexity.ai/comet', cat:'search', cats:['search','agent'], capability:'agent', status:'new',
+  { name:'Perplexity Comet', url:'https://www.perplexity.ai/comet', cat:'search', cats:['search','agent'], capability:'agent', status:'stable',
     tagline:'把答案引擎装进浏览器',
     why:'在浏览当前页时就能追问，打破了「浏览—复制—到 ChatGPT—再回来」的割裂。',
     design:'地址栏即提问栏（omnibox 融合），降低切换成本；对任意选中内容一键发起 Agent 任务。'},
@@ -228,7 +236,7 @@ const products = [
     tagline:'专业向 AI 视频工作流',
     why:'Gen-4 之后镜头一致性、运动控制到位，影视/广告真实在用；有 Motion Brush、相机控制等可控性工具。',
     design:'界面像 NLE 剪辑器 + 节点合成，不让 AI 取代时间线，而是在时间线里多加一类「AI 轨道」，尊重专业工作流。'},
-  { name:'Sora', url:'https://sora.com', cat:'creative', cats:['creative'], capability:'gen', status:'updated',
+  { name:'Sora', url:'https://sora.com', cat:'creative', cats:['creative'], capability:'gen', status:'stable',
     tagline:'OpenAI 的视频生成与社区',
     why:'Sora 2 把可控性和音画同步做到了社交短视频可用；重点不只是模型，而是把「人人是导演」做成了 feed。',
     design:'用类 TikTok 的 feed 包裹生成能力，Remix 按钮让每个作品都是半成品；用社交动力反哺模型对齐。'},
@@ -254,6 +262,10 @@ const products = [
     tagline:'AI 会议笔记',
     why:'不当机器人入会、不录全文，而是把你自己的潦草笔记补全成正式纪要——尊重「在场」的社交礼仪。',
     design:'左栏原笔记 + 右栏 AI 扩写，留下人类意图与 AI 产出的清晰分界；会后可 @Granola 连续追问，把会议变成知识资产。'},
+  { name:'Shadow', url:'https://shadow.ai', cat:'meeting', cats:['meeting','agent'], capability:'agent', status:'new',
+    tagline:'会议中执行的 AI 副驾',
+    why:'把 AI 从「会后整理」推进到「会中执行」——开会过程中实时生成 PDF、更新 PPT、写入 CRM、起草跟进邮件，等会议结束工作已经做完一半。重新定义了会议的产出物边界。',
+    design:'侧栏只展示「正在执行的动作」时间线，不展示语音转写主流；每个动作可一键回滚，把 Agent 的高风险写操作包装成可控的「待签收」清单，留出兜底。'},
   { name:'Mem', url:'https://get.mem.ai', cat:'productivity', cats:['productivity'], capability:'embed', status:'stable',
     tagline:'自组织的 AI 笔记',
     why:'没有文件夹，所有笔记靠 AI 自动关联和召回，赌的是「检索比整理重要」——在信息过载下站得住脚。',
@@ -262,13 +274,13 @@ const products = [
     tagline:'命令栏级 AI 入口',
     why:'把 AI 放进全局快捷键里，打字—回答—回到原应用只要 2 秒，是效率极客心中的系统级 AI 入口。',
     design:'严格遵循 macOS 键盘优先的审美与动效；AI Commands 允许用户自定义带参数的小型 Agent，像写 alias 一样顺手。'},
-  { name:'Cluely', url:'https://cluely.com', cat:'productivity', cats:['productivity'], capability:'embed', status:'new',
+  { name:'Cluely', url:'https://cluely.com', cat:'productivity', cats:['productivity'], capability:'embed', status:'stable',
     tagline:'常驻屏幕的 AI 副驾',
     why:'把 AI 做成「在你屏幕上」的悬浮窗，能看到你在看什么、说什么，实时给提示——适合面试、通话、客服场景。',
     design:'极薄悬浮层 + 快捷键唤起 + 默认半透明，只在需要时显形；推动了 AI-as-overlay 这一新交互范式的讨论。'},
 
   // === 设计 / 建站 ===
-  { name:'Figma Make', url:'https://www.figma.com/make/', cat:'design', cats:['design','coding'], capability:'gen', status:'updated',
+  { name:'Figma Make', url:'https://www.figma.com/make/', cat:'design', cats:['design','coding'], capability:'gen', status:'stable',
     tagline:'Figma 里原生的设计转代码',
     why:'让设计源文件直接生成能跑的前端，闭合了 Figma 过去最痛的「到代码就断掉」一环。',
     design:'不做全新工具，而是把 Make 嵌入现有 Figma 上下文，沿用变量/组件系统——尊重设计师已形成的工程化资产。'},
@@ -292,7 +304,7 @@ const products = [
     design:'每个 AI 能力都做成独立的竖屏卡片，符合创作者的移动端操作习惯，而不是把桌面 NLE 缩小。'},
 
   // === 🇨🇳 国内 ===
-  { name:'豆包 Doubao', url:'https://www.doubao.com', cat:'cn', cats:['cn','productivity'], capability:'gen', status:'updated',
+  { name:'豆包 Doubao', url:'https://www.doubao.com', cat:'cn', cats:['cn','productivity'], capability:'gen', status:'stable',
     tagline:'字节的 AI 原生入口',
     why:'把 AI 助手、角色对话、图像/视频生成、搜索统合进一个日活过亿的超级入口，形成国内第一梯队。',
     design:'移动优先 + 沉浸全屏对话 + 右下语音 orb，生硬的输入框被弱化；让 AI 像朋友一样在你生活里在线。'},
@@ -300,7 +312,7 @@ const products = [
     tagline:'长上下文+联网的研究型助手',
     why:'超长上下文让「读论文/财报/整本书」的使用场景首次成立；K2 后在 Agent 任务上也能打。',
     design:'结果以分节长文呈现并附引用，面向知识工作者的严肃阅读审美；侧栏保留研究助手的会话树状结构。'},
-  { name:'即梦 / Seedream', url:'https://jimeng.jianying.com', cat:'cn', cats:['cn','creative'], capability:'gen', status:'updated',
+  { name:'即梦 / Seedream', url:'https://jimeng.jianying.com', cat:'cn', cats:['cn','creative'], capability:'gen', status:'stable',
     tagline:'剪映背后的图/视频生成',
     why:'Seedream/Seedance 模型质量冲到第一梯队，且直通抖音/剪映生态，从工具即刻进入分发。',
     design:'工具选择像积木（图生图、图生视频、风格参考），UI 贴近移动端创作者习惯；把专业术语翻译成动词。'},
@@ -311,6 +323,7 @@ const products = [
 ];
 
 const changelog = [
+  { date: '2026-05-12', text: 'v2 更新：新增 3 款（Zed、Kilo Code、Shadow），更新 3 款（Manus 被 Meta 收购并推出 Cloud Computer；Cursor 2.0 上线 Composer 自研模型与 Multi-Agents；Claude Code 状态归档为 stable）。本周关键词：Agent 基础设施 + 编辑器路线分化。' },
   { date: '2026-04-27', text: 'v1 初版：覆盖 Agent / 编程 / 搜索 / 创作 / 设计 / 生产力 / 垂直 / 国内 共 8 大类 30+ 款 AI-native 产品，并新增「按 AI 能力」第二视图（生成型 / Agent 型 / 嵌入型）。' },
 ];
 
