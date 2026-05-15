@@ -158,13 +158,13 @@
    status: 'new' | 'updated' | 'stable'
    capability: 'gen'(生成型) | 'agent'(Agent型) | 'embed'(嵌入型)
    ============================================================ */
-const META = { version: 'v2', lastUpdated: '2026-05-12' };
+const META = { version: 'v3', lastUpdated: '2026-05-15' };
 
 const products = [
   // === Agent / 自动化 ===
-  { name:'Manus', url:'https://manus.im', cat:'agent', cats:['agent'], capability:'agent', status:'updated',
+  { name:'Manus', url:'https://manus.im', cat:'agent', cats:['agent'], capability:'agent', status:'stable',
     tagline:'通用 AI Agent，浏览器里跑完整的长任务',
-    why:'把「给指令—等结果」做成真实的委托关系：能自己打开网页、查资料、写代码、导出成品，真正替你完成一类白领工作流，而不只是产出一段文字。本轮被 Meta 收购，并推出常驻的 Cloud Computer，让 Agent 拥有 7×24 持久化工位。',
+    why:'把「给指令—等结果」做成真实的委托关系：能自己打开网页、查资料、写代码、导出成品，真正替你完成一类白领工作流，而不只是产出一段文字。被 Meta 收购后推出常驻的 Cloud Computer，让 Agent 拥有 7×24 持久化工位。',
     design:'用「虚拟电脑窗口 + 任务重放」作为主界面——你能看它在点什么、读了什么，过程可审计；Todo 面板把 Agent 的计划外显，让人类只在关键节点介入，把不可控变成可控。'},
   { name:'Devin', url:'https://devin.ai', cat:'agent', cats:['agent','coding'], capability:'agent', status:'stable',
     tagline:'自主软件工程师',
@@ -178,8 +178,8 @@ const products = [
   // === 编程 ===
   { name:'Cursor', url:'https://cursor.com', cat:'coding', cats:['coding'], capability:'embed', status:'updated',
     tagline:'AI-first 代码编辑器',
-    why:'把 IDE 的每个动作（补全、重构、搜索、调试）都重造成「和代码库对话」，代码库理解深度远超 Copilot 插件式方案。Cursor 2.0 推出自研 Composer 模型与 Multi-Agents 并行编排，押注「人指挥多 Agent」工作流。',
-    design:'核心是 Cmd+K 唤起的内联编辑——选中代码、说需求、原地 diff 预览；把「接受/拒绝」做成肌肉记忆，降低对 AI 错误的心理成本。新版 Plan 视图把 Agent 的中间步骤平铺成可干预的列表，逐步去黑盒化。'},
+    why:'把 IDE 的每个动作（补全、重构、搜索、调试）都重造成「和代码库对话」，代码库理解深度远超 Copilot 插件式方案。本轮 Cursor 3 上线全新 Agents Window，把多 Agent 跨仓库、跨环境（本地/远端/云）并行执行做成一等公民。',
+    design:'核心仍是 Cmd+K 唤起的内联编辑——选中代码、说需求、原地 diff 预览；新增 Tiled Layout 把当前视图分屏成多个 pane，每个 pane 跑一个独立 Agent，照顾「程序员靠空间分配理解任务」的直觉，把多任务并行从抽象 API 变成可见的工区。'},
   { name:'Claude Code', url:'https://www.anthropic.com/claude-code', cat:'coding', cats:['coding','agent'], capability:'agent', status:'stable',
     tagline:'终端里的 Agent 式编程',
     why:'跳出 IDE，直接让 Agent 在项目根目录跑，能跨文件规划、执行、提交。适合重构和长任务。',
@@ -196,11 +196,11 @@ const products = [
     tagline:'云端一站式 Agent 开发',
     why:'从「想法」到「上线 URL」不用离开浏览器，把环境配置、依赖、数据库、部署统统黑盒化。',
     design:'Agent 在侧栏讲人话+在主区实操，新手看得到每一步在干嘛；用「预览链接立刻可分享」作为激励，抓住 creator 心流。'},
-  { name:'Zed', url:'https://zed.dev', cat:'coding', cats:['coding','agent'], capability:'embed', status:'new',
+  { name:'Zed', url:'https://zed.dev', cat:'coding', cats:['coding','agent'], capability:'embed', status:'stable',
     tagline:'Rust + GPU 写的 AI 原生编辑器',
     why:'2026/4/29 正式发布 1.0：用 Rust 自研 GPUI 渲染框架，对标 VS Code 的 Electron 性能瓶颈；把 Agent 深度内嵌成第一公民，而非插件。证明了「编辑器本身的性能护城河」仍是 AI 时代差异化的关键。',
     design:'整个 UI 60fps GPU 渲染，AI 面板与编辑器共用同一帧；并行 Agent 以「分屏 worktree」方式呈现——每个 Agent 各占一片代码工区，互不干扰，照顾程序员对空间分配的直觉。'},
-  { name:'Kilo Code', url:'https://kilocode.ai', cat:'coding', cats:['coding','agent'], capability:'agent', status:'new',
+  { name:'Kilo Code', url:'https://kilocode.ai', cat:'coding', cats:['coding','agent'], capability:'agent', status:'stable',
     tagline:'开源 VS Code 编程 Agent',
     why:'走「自带 API key、500+ 模型零加价」的商业反路径，把利润让渡给开发者；并行 Agent + diff 审查，让多任务编码从单线程变并行。和 Cursor 形成「闭源服务 vs 开源工具链」的清晰分野。',
     design:'扩展形态而非独立 IDE，尊重开发者已有的 VS Code 肌肉记忆；Agent 输出统一进入 diff 视图等待审查，把「AI 写代码」做成 PR 评审节奏，而非即时覆盖。'},
@@ -262,7 +262,7 @@ const products = [
     tagline:'AI 会议笔记',
     why:'不当机器人入会、不录全文，而是把你自己的潦草笔记补全成正式纪要——尊重「在场」的社交礼仪。',
     design:'左栏原笔记 + 右栏 AI 扩写，留下人类意图与 AI 产出的清晰分界；会后可 @Granola 连续追问，把会议变成知识资产。'},
-  { name:'Shadow', url:'https://shadow.ai', cat:'meeting', cats:['meeting','agent'], capability:'agent', status:'new',
+  { name:'Shadow', url:'https://shadow.ai', cat:'meeting', cats:['meeting','agent'], capability:'agent', status:'stable',
     tagline:'会议中执行的 AI 副驾',
     why:'把 AI 从「会后整理」推进到「会中执行」——开会过程中实时生成 PDF、更新 PPT、写入 CRM、起草跟进邮件，等会议结束工作已经做完一半。重新定义了会议的产出物边界。',
     design:'侧栏只展示「正在执行的动作」时间线，不展示语音转写主流；每个动作可一键回滚，把 Agent 的高风险写操作包装成可控的「待签收」清单，留出兜底。'},
@@ -278,6 +278,10 @@ const products = [
     tagline:'常驻屏幕的 AI 副驾',
     why:'把 AI 做成「在你屏幕上」的悬浮窗，能看到你在看什么、说什么，实时给提示——适合面试、通话、客服场景。',
     design:'极薄悬浮层 + 快捷键唤起 + 默认半透明，只在需要时显形；推动了 AI-as-overlay 这一新交互范式的讨论。'},
+  { name:'Googlebook', url:'https://blog.google/products-and-platforms/platforms/android/meet-googlebook', cat:'productivity', cats:['productivity'], capability:'embed', status:'new',
+    tagline:'为 Gemini 原生设计的 AI 笔记本',
+    why:'2026/5/12 谷歌正式发布的全新笔记本品类，从硬件到 OS 围绕 Gemini 重做——把「AI 是一个 App」的时代翻篇，押注「整台机器为模型服务」。和 Chromebook、Copilot+ PC 形成三种 OS 级 AI 形态对照。',
+    design:'OS 级 Gemini 入口取代传统启动器，硬件按键直接召唤 Agent；上下文跨 App 流动（你在邮件里看到的内容会自然进入下一个文档），把「应用之间复制粘贴」这一旧动作消解掉。'},
 
   // === 设计 / 建站 ===
   { name:'Figma Make', url:'https://www.figma.com/make/', cat:'design', cats:['design','coding'], capability:'gen', status:'stable',
@@ -302,6 +306,14 @@ const products = [
     tagline:'短视频创作者的 AI 工作室',
     why:'眼神矫正、字幕、配音、剪辑一键化，让「一个人一台手机做内容」真正可持续。',
     design:'每个 AI 能力都做成独立的竖屏卡片，符合创作者的移动端操作习惯，而不是把桌面 NLE 缩小。'},
+  { name:'Alexa for Shopping', url:'https://www.aboutamazon.com/news/retail/alexa-for-shopping-ai-assistant', cat:'vertical', cats:['vertical','search','agent'], capability:'agent', status:'new',
+    tagline:'装进 Amazon 搜索栏的购物 Agent',
+    why:'2026/5/13 亚马逊把 Alexa 直接塞进主搜索框，从「关键词匹配商品」升级到「描述需求—Agent 帮你比价、下单、订阅、追踪」。是平台型电商对 ChatGPT/Gemini/Comet 等外部 Agent 入侵的正面回应，押注「商品图谱 + 物流闭环」是自家护城河。',
+    design:'入口不另起一个 chat App，而是用一个斜体「A」图标在原搜索框旁出现，让既有用户零切换成本切到对话模式；结果区按「商品卡 + 决策维度」混排，把 Agent 的多轮追问转化为购物列表的实时筛选。'},
+  { name:'ixigo Tara', url:'https://www.ixigo.com', cat:'vertical', cats:['vertical','agent'], capability:'agent', status:'new',
+    tagline:'印度版 AI 原生旅行 App',
+    why:'2026/5/13 ixigo 把整个 App 推倒重建，让对话式 AI 助理 Tara 替代传统的搜索/筛选/比价路径。是垂直 OTA 第一次明确表态：与其在旧 App 里加一个 chat 按钮，不如重写产品来对抗 ChatGPT 的旅游攻势。',
+    design:'主屏只剩一个语音/文字输入条，传统的城市选择器、日期日历都被收进对话上下文；Agentic Booking 把「搜—比—订」三步合并成一句话委托，进度以聊天气泡形式回传，把决策成本压到最低。'},
 
   // === 🇨🇳 国内 ===
   { name:'豆包 Doubao', url:'https://www.doubao.com', cat:'cn', cats:['cn','productivity'], capability:'gen', status:'stable',
@@ -323,6 +335,7 @@ const products = [
 ];
 
 const changelog = [
+  { date: '2026-05-15', text: 'v3 更新：新增 3 款（Googlebook、Alexa for Shopping、ixigo Tara），更新 1 款（Cursor 3 上线 Agents Window 与 Tiled Layout，多 Agent 跨仓库并行成第一公民）。本周关键词：AI 原生从软件外溢到 OS（Googlebook）和垂直平台（Amazon / 旅游 OTA）。' },
   { date: '2026-05-12', text: 'v2 更新：新增 3 款（Zed、Kilo Code、Shadow），更新 3 款（Manus 被 Meta 收购并推出 Cloud Computer；Cursor 2.0 上线 Composer 自研模型与 Multi-Agents；Claude Code 状态归档为 stable）。本周关键词：Agent 基础设施 + 编辑器路线分化。' },
   { date: '2026-04-27', text: 'v1 初版：覆盖 Agent / 编程 / 搜索 / 创作 / 设计 / 生产力 / 垂直 / 国内 共 8 大类 30+ 款 AI-native 产品，并新增「按 AI 能力」第二视图（生成型 / Agent 型 / 嵌入型）。' },
 ];
