@@ -79,8 +79,8 @@
   <header>
     <h1>AI-Native 产品观察台</h1>
     <div class="sub">
-      <span>最近更新 <b id="last-updated">2026-05-18</b></span>
-      <span>版本 <b id="version">v4</b></span>
+      <span>最近更新 <b id="last-updated">2026-05-24</b></span>
+      <span>版本 <b id="version">v6</b></span>
       <span>收录 <b id="total-count">0</b> 款</span>
       <span>刷新节奏 <b>每 3 天一次 · 每轮新增 ≤ 3 款</b></span>
     </div>
@@ -158,7 +158,7 @@
    status: 'new' | 'updated' | 'stable'
    capability: 'gen'(生成型) | 'agent'(Agent型) | 'embed'(嵌入型)
    ============================================================ */
-const META = { version: 'v4', lastUpdated: '2026-05-18' };
+const META = { version: 'v6', lastUpdated: '2026-05-24' };
 
 const products = [
   // === Agent / 自动化 ===
@@ -174,12 +174,16 @@ const products = [
     tagline:'会自己发邮件约会议的调度助手',
     why:'跨公司约会议这件事，第一次不需要人来回倒时间——Agent 用你邮箱的身份直接沟通并落到日历。',
     design:'把 Agent 伪装成一个签名邮箱地址（@yourdomain），契合既有协作礼仪；所有动作在一个时间线面板里可撤销，让「代你说话」不失控。'},
+  { name:'Gemini Spark', url:'https://gemini.google/overview/agent/spark/', cat:'agent', cats:['agent','productivity'], capability:'agent', status:'new',
+    tagline:'谷歌 24/7 个人 AI Agent',
+    why:'2026/5/19 Google I/O 发布——基于 Gemini 3.5 Flash + Antigravity Harness，跑在 Google Cloud 专用 VM 上的常驻个人 Agent，关机也能继续干活。第一次把「Agent 不再寄生在你的设备里」做成消费级产品：监控 Gmail 订阅、起草团队邮件、维护 Sheets RSVP、生成 Slides 宣传页全部在云端虚拟工位完成。是 Google 对 OpenAI Operator / Manus 的正面应战，也是 Ultra 订阅从月费 $250 降到 $200 的导流核心。',
+    design:'三件套抽象：Tasks（动作）/ Skills（技能模板）/ Schedules（时间或条件触发器），把「Agent 怎么用」拆成像 Zapier 但更口语化的三层；高风险动作（消费、发邮件）强制弹出确认，低风险任务后台静默；通过 MCP 接 Canva / OpenTable / Instacart 等三方，让一个 chat 入口长出真正的执行半径。'},
 
   // === 编程 ===
   { name:'Cursor', url:'https://cursor.com', cat:'coding', cats:['coding'], capability:'embed', status:'updated',
     tagline:'AI-first 代码编辑器',
-    why:'把 IDE 的每个动作（补全、重构、搜索、调试）都重造成「和代码库对话」，代码库理解深度远超 Copilot 插件式方案。本轮 3.3（2026/5/7）上线 Build in Parallel：把规划里相互独立的步骤派给异步 subagent 同时跑，并新增 Split PRs 把一段聊天拆成多个独立 PR，正式把「一个人监督多条 Agent 工作流」做进 IDE。',
-    design:'核心仍是 Cmd+K 唤起的内联编辑——选中代码、说需求、原地 diff 预览；3.3 把 Build → Snapshot → Split PR → Review 串成完整链路：subagent 各自在快照工区里改代码，结束时按逻辑分组自动开 PR、并把 Reviews/Commits/Changes 三栏合并到统一审查面板，让多 Agent 写代码也能保持「PR 评审」的人类节奏。'},
+    why:'把 IDE 的每个动作（补全、重构、搜索、调试）都重造成「和代码库对话」，代码库理解深度远超 Copilot 插件式方案。本轮重磅升级：Composer 2.5（2026/5/18）以国产 Kimi K2.5 为底座、靠后训练 + 强化学习把内部模型推到逼近 Claude Opus 4.7 的水平且单任务成本仅为对手 1/10；3.4 版（5/13）上线 Multi-repo 云端 Agent 开发环境，让多 Agent 跨仓库长任务有了和本地一样的可重现工区。和 Anthropic 自营 Claude Code 的「模型即产品」路线正面分化。',
+    design:'核心仍是 Cmd+K 唤起的内联编辑——选中代码、说需求、原地 diff 预览；3.4 把开发环境配置改成 Dockerfile-as-code + 版本历史 + 审计日志，让 Agent 跑长任务可回滚、可审查；3.3 起把 Build → Snapshot → Split PR → Review 串成完整链路：subagent 在快照工区里改代码，结束时按逻辑分组自动开 PR、并把 Reviews / Commits / Changes 三栏合并到统一审查面板，让多 Agent 写代码也保持「PR 评审」的人类节奏。'},
   { name:'Claude Code', url:'https://www.anthropic.com/claude-code', cat:'coding', cats:['coding','agent'], capability:'agent', status:'stable',
     tagline:'终端里的 Agent 式编程',
     why:'跳出 IDE，直接让 Agent 在项目根目录跑，能跨文件规划、执行、提交。适合重构和长任务。',
@@ -204,6 +208,10 @@ const products = [
     tagline:'开源 VS Code 编程 Agent',
     why:'走「自带 API key、500+ 模型零加价」的商业反路径，把利润让渡给开发者；并行 Agent + diff 审查，让多任务编码从单线程变并行。和 Cursor 形成「闭源服务 vs 开源工具链」的清晰分野。',
     design:'扩展形态而非独立 IDE，尊重开发者已有的 VS Code 肌肉记忆；Agent 输出统一进入 diff 视图等待审查，把「AI 写代码」做成 PR 评审节奏，而非即时覆盖。'},
+  { name:'Google Antigravity', url:'https://antigravity.google', cat:'coding', cats:['coding','agent'], capability:'agent', status:'new',
+    tagline:'谷歌 Agent-first 的桌面级 AI IDE',
+    why:'2026/5/19 Google I/O 推出 Antigravity 2.0——从去年底的「AI IDE」彻底转向独立桌面应用 + 多 Agent 协同平台。现场用 93 个子 Agent 并行 12 小时、消耗 26 亿 token 从零生成出一个能跑 Doom 的操作系统，证明「Gemini 3.5 Flash + Agent harness」可以把多人多日工程压到一夜。和 Cursor / Claude Code 一起锁定 AI coding 三强格局，但 Google 用免费 + 自家全栈模型反向砸场。',
+    design:'放弃 VS Code fork 路线，选择从 0 起建独立桌面应用——把「Agent 是第一公民、编辑器是辅助」做成默认形态：界面以 Agent 对话与产物为主、编辑器退到次屏；CLI / SDK / 音频原生输入并列暴露给开发者，不再假设人一定坐在 IDE 前；与 Android / Firebase / AI Studio 深度集成，把「写代码 → 发版 → 上线」收进同一个 harness。'},
 
   // === 搜索 / 浏览器 ===
   { name:'Perplexity', url:'https://www.perplexity.ai', cat:'search', cats:['search'], capability:'gen', status:'stable',
@@ -262,10 +270,10 @@ const products = [
     tagline:'AI 会议笔记',
     why:'不当机器人入会、不录全文，而是把你自己的潦草笔记补全成正式纪要——尊重「在场」的社交礼仪。',
     design:'左栏原笔记 + 右栏 AI 扩写，留下人类意图与 AI 产出的清晰分界；会后可 @Granola 连续追问，把会议变成知识资产。'},
-  { name:'Shadow', url:'https://shadow.ai', cat:'meeting', cats:['meeting','agent'], capability:'agent', status:'stable',
+  { name:'Shadow', url:'https://shadowlabs.ai', cat:'meeting', cats:['meeting','agent'], capability:'agent', status:'updated',
     tagline:'会议中执行的 AI 副驾',
-    why:'把 AI 从「会后整理」推进到「会中执行」——开会过程中实时生成 PDF、更新 PPT、写入 CRM、起草跟进邮件，等会议结束工作已经做完一半。重新定义了会议的产出物边界。',
-    design:'侧栏只展示「正在执行的动作」时间线，不展示语音转写主流；每个动作可一键回滚，把 Agent 的高风险写操作包装成可控的「待签收」清单，留出兜底。'},
+    why:'把 AI 从「会后整理」推进到「会中执行」——开会过程中实时生成 PDF、更新 PPT、写入 CRM、起草跟进邮件，等会议结束工作已经做完一半。重新定义了会议的产出物边界。本轮 Shadow 2.0（2026/5/6 Product Hunt #2）从浏览器扩展升级为原生桌面应用：自动检测会议开始、不以 bot 身份入会、对参会者完全隐形，把「会议执行助理」做成系统级常驻能力。',
+    design:'侧栏只展示「正在执行的动作」时间线，不展示语音转写主流；每个动作可一键回滚，把 Agent 的高风险写操作包装成可控的「待签收」清单，留出兜底。2.0 选择原生桌面而非 bot 入会，是对「AI 不应改变社交礼仪」的设计表态——它替你干活，但不出现在参会者列表里。'},
   { name:'Mem', url:'https://get.mem.ai', cat:'productivity', cats:['productivity'], capability:'embed', status:'stable',
     tagline:'自组织的 AI 笔记',
     why:'没有文件夹，所有笔记靠 AI 自动关联和召回，赌的是「检索比整理重要」——在信息过载下站得住脚。',
@@ -282,7 +290,7 @@ const products = [
     tagline:'为 Gemini 原生设计的 AI 笔记本',
     why:'2026/5/12 谷歌正式发布的全新笔记本品类，从硬件到 OS 围绕 Gemini 重做——把「AI 是一个 App」的时代翻篇，押注「整台机器为模型服务」。和 Chromebook、Copilot+ PC 形成三种 OS 级 AI 形态对照。',
     design:'OS 级 Gemini 入口取代传统启动器，硬件按键直接召唤 Agent；上下文跨 App 流动（你在邮件里看到的内容会自然进入下一个文档），把「应用之间复制粘贴」这一旧动作消解掉。'},
-  { name:'Thinking Machines Interaction', url:'https://thinkingmachines.ai', cat:'productivity', cats:['productivity'], capability:'embed', status:'new',
+  { name:'Thinking Machines Interaction', url:'https://thinkingmachines.ai', cat:'productivity', cats:['productivity'], capability:'embed', status:'stable',
     tagline:'实时人机协作的「互动模型」',
     why:'2026/5/11 Mira Murati 创立的 Thinking Machines Lab 发布首款模型 TML-Interaction-Small，把 AI 交互范式从「一问一答的回合制」改成「双方都能随时插嘴」——人和模型可以同时说话、同时思考、同时调用工具，0.4 秒响应延迟领先 GPT-realtime / Gemini Live。第一次让 AI 协作从邮件式窄带宽变成像真人对话一样的连续协作。',
     design:'采用「双模型」架构：一个 276B MoE 互动模型负责实时听 / 看 / 说与短期上下文，一个异步后台模型并行跑深推理与长任务，结果回流到对话；不再外挂 VAD + TTS + turn-detection 拼接出「实时感」，而是把交互能力做成模型原生属性，让接口适应人类节奏，而不是反过来。'},
@@ -296,6 +304,10 @@ const products = [
     tagline:'生成高保真 UI 设计稿',
     why:'一句话出一套成体系的界面，直接以可编辑 Figma 文件交付，拉平了「想法到设计稿」的距离。',
     design:'输出是结构化设计而非位图，可接入既有 design system；把 AI 做成「实习设计师」而非「图片生成器」。'},
+  { name:'Google Pics', url:'https://workspace.google.com/products/pics/', cat:'design', cats:['design','creative'], capability:'gen', status:'new',
+    tagline:'Workspace 原生的 AI 设计应用',
+    why:'2026/5/19 Google I/O 发布——基于 Nano Banana 2 模型，把生成图直接变成「每个元素都是独立对象」的可编辑画布。一句话生成海报 / 邀请函 / 营销图后，文字、人物、背景可以像 Figma 图层一样精修，而不必重写整段 prompt 期望 AI 不要改坏。是 Google 对 Canva 与 Anthropic Claude Design 的正面对标，也补齐了 Workspace 在视觉创作环节的最后一块拼图。',
+    design:'对生成图执行对象级分割——任何元素可单独移动、缩放、删除、改文字（含多语言翻译且保持字体），把「重新 prompt」的概率游戏改成 Docs 式批注协作；原生集成 Slides / Drive，所有产出自动带 SynthID 隐式水印；不做画布工具的全功能堆砌，而是用「先生成、再分层修」这一最小手势重构 AI 设计的工作流。'},
 
   // === 垂直行业 ===
   { name:'Harvey', url:'https://www.harvey.ai', cat:'vertical', cats:['vertical'], capability:'embed', status:'stable',
@@ -336,17 +348,18 @@ const products = [
     tagline:'国内通用 Agent 代表',
     why:'AutoGLM 把「手机上代你点外卖/订票」做通，挑战了「App 图标作为入口」的假设，是国产 Agent 的重要尝试。',
     design:'在手机侧边常驻半透明悬浮球，任务面板以语音 + 可视化操作轨迹呈现，契合移动使用情境。'},
-  { name:'百度搭子 DuMate', url:'https://dumate.baidu.com', cat:'cn', cats:['cn','agent'], capability:'agent', status:'new',
+  { name:'百度搭子 DuMate', url:'https://dumate.baidu.com', cat:'cn', cats:['cn','agent'], capability:'agent', status:'stable',
     tagline:'百度的通用执行式 Agent 入口',
     why:'2026/5/13 百度 Create 大会正式亮相，移动端 App 与 PC 端实时互通；同周登顶 PinchBench 与 DeepResearch 双榜。把「AI 搜索 / 秒哒 / 伐谋 / 百科 / 网盘」等百度自家能力做成统一入口，押注「Agent 才是新的超级 App」——挑战「桌面图标 + 应用商店」这一旧入口范式，是国产 Agent 路线最完整的一次表态。',
     design:'采用自研 Harness 引擎而非开源 framework，做长链路稳定性；端云协同把隐私敏感操作留在本地、复杂推理上云，不让用户手动切换；任务面板支持「一句话起多条任务并行执行」，配合双沙箱（macOS + Windows）做高风险写操作的兜底。'},
-  { name:'千问 × 淘宝', url:'https://www.tongyi.com/qianwen', cat:'cn', cats:['cn','search','agent'], capability:'agent', status:'new',
+  { name:'千问 × 淘宝', url:'https://www.tongyi.com/qianwen', cat:'cn', cats:['cn','search','agent'], capability:'agent', status:'stable',
     tagline:'AI 购物双入口：通用 Agent ↔ 平台导购',
     why:'2026/5/11 千问 App 与淘宝全面打通，配合同日发布的全新 AI 店小蜜（电商行业首个具备「售前+售后办事能力」的客服 Agent，「AI+人」转化率全时段超越纯人工）。这是中文电商对 ChatGPT / Comet / Alexa for Shopping 的正面回应：消费侧用千问做对话式购物入口，商家侧用店小蜜做办事 Agent，重构「问—比—订—售后」整条链路。',
     design:'双入口同源——千问 App 里聊一句即可调用淘宝商品图谱，淘宝 App 内的「千问 AI 购物助手」复用同一对话上下文；AI 试穿 / AI 算优惠 / AI 低价帮抢做成对话内可调用的「能力卡」而非独立功能；店小蜜端把客服从「问答」改成「带动作 Token 预算」的导购 Agent，用万亿 token 算力包让小商家也能用上重模型。'},
 ];
 
 const changelog = [
+  { date: '2026-05-24', text: 'v6 更新：新增 3 款（Gemini Spark、Google Antigravity、Google Pics——全部来自 2026/5/19 Google I/O），更新 2 款（Cursor Composer 2.5 + 3.4 多仓库云端 Agent 开发环境；Shadow 2.0 从浏览器扩展升级为原生桌面应用，PH 5/6 拿下 #2）。本周关键词：谷歌从「Gemini App」一次性升级为「Agent + IDE + 设计工具」三件套，把 OpenAI / Anthropic / Cursor 同时拉进同一战场。' },
   { date: '2026-05-18', text: 'v4 更新：新增 3 款（Thinking Machines Interaction、百度搭子 DuMate、千问 × 淘宝），更新 1 款（Cursor 3.3 上线 Build in Parallel + Split PRs + 统一 PR 审查，把多 Agent 写代码做成完整 PR 评审链路）。本周关键词：交互范式从「回合制」走向「实时双线」（TML），通用 Agent 入口之争（DuMate）与中文 AI 电商的双入口反击（千问 × 淘宝）。' },
   { date: '2026-05-15', text: 'v3 更新：新增 3 款（Googlebook、Alexa for Shopping、ixigo Tara），更新 1 款（Cursor 3 上线 Agents Window 与 Tiled Layout，多 Agent 跨仓库并行成第一公民）。本周关键词：AI 原生从软件外溢到 OS（Googlebook）和垂直平台（Amazon / 旅游 OTA）。' },
   { date: '2026-05-12', text: 'v2 更新：新增 3 款（Zed、Kilo Code、Shadow），更新 3 款（Manus 被 Meta 收购并推出 Cloud Computer；Cursor 2.0 上线 Composer 自研模型与 Multi-Agents；Claude Code 状态归档为 stable）。本周关键词：Agent 基础设施 + 编辑器路线分化。' },
