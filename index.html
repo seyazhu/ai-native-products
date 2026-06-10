@@ -79,8 +79,8 @@
   <header>
     <h1>AI-Native 产品观察台</h1>
     <div class="sub">
-      <span>最近更新 <b id="last-updated">2026-06-07</b></span>
-      <span>版本 <b id="version">v9</b></span>
+      <span>最近更新 <b id="last-updated">2026-06-10</b></span>
+      <span>版本 <b id="version">v10</b></span>
       <span>收录 <b id="total-count">0</b> 款</span>
       <span>刷新节奏 <b>每 3 天一次 · 每轮新增 ≤ 3 款</b></span>
     </div>
@@ -158,7 +158,7 @@
    status: 'new' | 'updated' | 'stable'
    capability: 'gen'(生成型) | 'agent'(Agent型) | 'embed'(嵌入型)
    ============================================================ */
-const META = { version: 'v9', lastUpdated: '2026-06-07' };
+const META = { version: 'v10', lastUpdated: '2026-06-10' };
 
 const products = [
   // === Agent / 自动化 ===
@@ -182,16 +182,20 @@ const products = [
     tagline:'微软首款 always-on 自主 Agent',
     why:'2026/6/2 Build 2026 发布——微软定义全新品类「Autopilots」：与 Copilot「问一句答一句」不同，Autopilot 拥有自己的 Entra 身份与凭据、24/7 在后台自主推进工作，深度打通 Teams / Outlook / OneDrive / SharePoint / 日历。底层是同期开源、3 个月狂揽 29.5 万 GitHub stars 的 OpenClaw 框架，跑在 Windows 11 新增的 MXC（Microsoft 执行容器）操作系统级 Agent 沙箱里。是 16 亿 Windows 用户的「Agent 操作系统时刻」，也是微软对 Gemini Spark / Manus 的正面接战。',
     design:'核心抽象不是「多了一个 chat 入口」而是「企业可治理的自主员工」：每个 Autopilot 有独立 Entra 身份、操作全程可审计、敏感动作走人审；Work IQ 长期学习用户工作节奏，自己提前预留焦点时间、协调跨时区会议、识别决策停滞风险；与 Copilot 的并存关系做得很克制——Copilot 应答，Scout 推进，两者职责正交。MXC 沙箱给出「进程级 / 会话级 / 虚拟机级 / 云端 365 级」四档隔离滑杆，让 IT 部门按风险定档而非全有或全无。'},
-  { name:'OpenAI Codex (Intelligence at Work)', url:'https://openai.com/index/intelligence-at-work', cat:'agent', cats:['agent','coding','productivity'], capability:'agent', status:'new',
+  { name:'Claude Cowork', url:'https://www.anthropic.com/product/claude-cowork', cat:'agent', cats:['agent','productivity'], capability:'agent', status:'new',
+    tagline:'Claude Code 的「非程序员版」桌面 Agent',
+    why:'Anthropic 把 Cowork 从 1 月 macOS beta 一路推到 4/9 全面正式版（去 Beta、所有付费计划默认开启），再到 5/11 Code with Claude 大会发 Managed Agents 多 Agent 编排栈、5/12 Legal、5/13 SMB、5/18 Marketing Ops 三个垂直 bundle 七天连发；Cowork 本身据称几乎完全由 Claude 一周半内自主开发完成。它把 Claude Code 那套「读你电脑文件、跑多步任务、调 MCP 连接器」的能力剥离出 IDE，包成普通白领能用的桌面应用——研究员 / 分析师 / 法务 / 财务把一摞合同、收据、笔记扔给它，它就吐出整理好的 Excel / 报告 / 摘要。这是 Anthropic 借 Claude Opus 4.8 / Fable 5 / 9650 亿美元估值 / 6 月初秘密递交 IPO 的窗口期，向 OpenAI Codex Plugins 与 Microsoft Scout 正面摆出的「Office 打法」——先建桌面平台，再叠垂直 bundle。',
+    design:'核心抽象不是「再做一个 chat App」，而是把交互单位从 prompt 改成 outcome：用户给目标 + 一个文件夹访问权限，Claude 自己拆任务、起草计划、按计划推进，过程中只在「重大动作」前请求确认；全局指令（语气 / 格式 / 角色背景）+ 文件夹专属指令把「每次都要 prompt 上下文」改成「环境感知的工作偏好」；任务可排队让 Claude 并行跑，体感像「给同事留便签」而非「来回对话」；与 Claude in Chrome / Excel / PowerPoint / Word 的连接器一起把 Cowork 的执行半径从本地文件扩到浏览器与 Office 全家桶。'},
+  { name:'OpenAI Codex (Intelligence at Work)', url:'https://openai.com/index/intelligence-at-work', cat:'agent', cats:['agent','coding','productivity'], capability:'agent', status:'stable',
     tagline:'装进 ChatGPT 的「全员 Agent」入口',
     why:'2026/6/3 OpenAI「Intelligence at Work」发布会——把 Codex 完整能力并入 ChatGPT 主入口，10 亿用户一夜获得 Agent 能力，不再需要单独 App。Codex 周活已破 500 万，知识工作者占比 20%。本轮三件套：Agent Plugins（首批 6 款职业角色：销售 / 数据分析 / 产品设计 / 创意制作 / 投行 / 股票投资，打包 110 项技能 + 62 个企业应用，含 Salesforce / Snowflake / Figma / Canva / Databricks）、Annotations（在文档 / 表格 / 幻灯片 / 网页上圈选区域做精准局部修改）、Sites（一句话生成可托管交互式 Web App，附 Sign in with ChatGPT、数据存储、URL 团队共享）。是对 Anthropic「Claude Code + Cowork」组合的正面反击，也宣告 AI 办公从「开发者工具」彻底走向全民生产力。',
     design:'三个抽象正好咬住 AI 办公里没解决的三个真痛点：Plugins 把「通用 Agent 万能承诺」改成「按职业打包的工作流模板」，让 Codex 落到具体岗位的工具链与术语里；Annotations 把「重新 prompt」赌博式生成换成 Docs 式批注协作——选中段落 / 图表 / 表格说人话改，让 AI 像团队成员一样接受局部反馈而非全文重写；Sites 把对话产物从「一段输出」升级为「可托管、可分发、可由 Agent 持续维护的工件」，让团队第一次能围绕 Codex 的产物协作而不是围绕一段聊天记录。底层是「分发层即护城河」战略：不另起 App，直接用 ChatGPT 的 10 亿用户超级入口当 Agent 推广渠道。'},
 
   // === 编程 ===
-  { name:'Cursor', url:'https://cursor.com', cat:'coding', cats:['coding'], capability:'embed', status:'stable',
+  { name:'Cursor', url:'https://cursor.com', cat:'coding', cats:['coding'], capability:'embed', status:'updated',
     tagline:'AI-first 代码编辑器',
-    why:'把 IDE 的每个动作（补全、重构、搜索、调试）都重造成「和代码库对话」，代码库理解深度远超 Copilot 插件式方案。本轮密集迭代：3.5（5/20）一次发了「共享画布 + /loop 自驱长任务技能 + 多仓库 / 无仓库自动化 + Jira 集成」四件套，把 Cursor 从「IDE」拓宽到「跨工具自动化平台」；3.6（5/29）推出 Auto Review 运行模式，让分类器子 Agent 替你判断高低风险动作，把「Agent 长跑」与「人审批」之间的疲劳节奏彻底重构。和 Claude Code 的 Agent View / ultracode 形成正面对话。',
-    design:'核心仍是 Cmd+K 唤起的内联编辑——选中代码、说需求、原地 diff 预览；3.5 把 Agent 产物（报告 / 仪表盘 / 自定义 UI）抽象成「画布」，并以只读快照链接共享，把「我让 Cursor 做了什么」变成可分发的工件；/loop 让 Agent 自定义条件循环（每 5 分钟检查部署 / 持续改到测试通过），把「需要人盯着」改成「达成条件再叫我」；Auto Review 用三档分类（白名单立即执行 / 沙箱执行 / 子 Agent 判定后请求人审）替代单一审批阀，把信任度做成可调节的滑杆而非黑白开关。'},
+    why:'把 IDE 的每个动作（补全、重构、搜索、调试）都重造成「和代码库对话」，代码库理解深度远超 Copilot 插件式方案。本轮密集迭代：3.5（5/20）一次发了「共享画布 + /loop 自驱长任务技能 + 多仓库 / 无仓库自动化 + Jira 集成」四件套，把 Cursor 从「IDE」拓宽到「跨工具自动化平台」；3.6（5/29）推出 Auto Review 运行模式，让分类器子 Agent 替你判断高低风险动作；3.7（6/4-6/5 双发）把 Design Mode 升级到「多元素同选 + 常驻语音口播 + Canvas 画布也能进 Design Mode」，并配合 Cursor SDK 推出 Custom Tools / Custom Stores / Auto-review for SDK / 任意深度子 Agent 嵌套，把无人值守 CI / 生产脚本里的 Agent 从「玩具」做成可治理资产。和 Claude Code 的 Agent View / ultracode 形成正面对话。',
+    design:'核心仍是 Cmd+K 唤起的内联编辑——选中代码、说需求、原地 diff 预览；3.5 把 Agent 产物（报告 / 仪表盘 / 自定义 UI）抽象成「画布」，并以只读快照链接共享；/loop 让 Agent 自定义条件循环；Auto Review 用三档分类（白名单立即执行 / 沙箱执行 / 子 Agent 判定后请求人审）替代单一审批阀；3.7 的 Design Mode 把「指令 → 元素」的语义鸿沟彻底关上——多元素同选让 AI 看到布局关系而非孤岛元素，常驻麦克风允许在 Agent 跑动期间排队下一项修改而不打断当前执行，Cmd+Shift+D 把可见即可改做成 IDE 的肌肉记忆；SDK 侧 Custom Tools 把「自定义能力 = 起一个 MCP server」简化成「传一个函数定义」，Auto-review 用自然语言 allow / block 指令而非黑白白名单做权限治理，让无头 Agent 也能配出与人类工位一样的信任滑杆。'},
   { name:'Claude Code', url:'https://www.anthropic.com/claude-code', cat:'coding', cats:['coding','agent'], capability:'agent', status:'stable',
     tagline:'终端里的 Agent 式编程',
     why:'跳出 IDE，直接让 Agent 在项目根目录跑，能跨文件规划、执行、提交。适合重构和长任务。本轮 5 月一个月发 30 个版本：5/11 Agent View（claude agents）把 CLI 改成「多会话调度台」，supervisor 后台进程让会话脱离终端而活；同步上线 /goal 持久化目标，跨 turn 自驱直到完成；5/29 起随 Opus 4.8 推出 Dynamic Workflows + ultracode 模式，单次运行可调度上千个子 Agent 并行做整仓重构（实测 11 天 11 万行 Bun Zig→Rust 迁移、99.8% 测试通过）。彻底告别「单会话助手」时代。',
@@ -220,7 +224,7 @@ const products = [
     tagline:'谷歌 Agent-first 的桌面级 AI IDE',
     why:'2026/5/19 Google I/O 推出 Antigravity 2.0——从去年底的「AI IDE」彻底转向独立桌面应用 + 多 Agent 协同平台。现场用 93 个子 Agent 并行 12 小时、消耗 26 亿 token 从零生成出一个能跑 Doom 的操作系统，证明「Gemini 3.5 Flash + Agent harness」可以把多人多日工程压到一夜。和 Cursor / Claude Code 一起锁定 AI coding 三强格局，但 Google 用免费 + 自家全栈模型反向砸场。',
     design:'放弃 VS Code fork 路线，选择从 0 起建独立桌面应用——把「Agent 是第一公民、编辑器是辅助」做成默认形态：界面以 Agent 对话与产物为主、编辑器退到次屏；CLI / SDK / 音频原生输入并列暴露给开发者，不再假设人一定坐在 IDE 前；与 Android / Firebase / AI Studio 深度集成，把「写代码 → 发版 → 上线」收进同一个 harness。'},
-  { name:'Mistral Vibe', url:'https://vibe.mistral.ai', cat:'coding', cats:['coding','agent','productivity'], capability:'agent', status:'new',
+  { name:'Mistral Vibe', url:'https://vibe.mistral.ai', cat:'coding', cats:['coding','agent','productivity'], capability:'agent', status:'stable',
     tagline:'欧洲全栈派的统一 Agent 平台',
     why:'2026/5/28 巴黎 AI Now Summit 一次性官宣——Le Chat 改名升级为统一 Agent 平台 Vibe，并行推出工业 AI（联手空客 / 宝马 / ASML 做 physics AI）和巴黎 Les Ulis 自有 10MW 推理数据中心。Vibe 拆成 Work 模式（接 Google Workspace / Outlook / SharePoint / Slack / GitHub，跑长程任务、起草交付物、安排周期流程）和 Code 模式（VS Code 扩展 + 开源 CLI + code.mistral.ai 远程沙箱，直接生成 PR）。是欧洲第一个能与 Codex / Claude Code 正面对话的全栈方案，且把「数据主权 + 本地部署 + 模型可换」做成对美系闭源 SaaS 的差异化卖点——CLI Apache 2.0 开源、可换 Claude Sonnet 跑、支持 on-prem / VPC。',
     design:'核心设计是「同一个 Agent，同一份许可，两种工作模式」：Work / Code 共享对话上下文与连接器配置，让员工在写邮件和写代码之间不必换工具；Code 模式给三种入口（IDE 扩展 / CLI / 云沙箱）尊重开发者已有的工作位面而非强迫迁移；Plan Mode 把「只读探索」与「写操作」分档，降低 Agent 上手心理成本；Industrial Engineering 边把 LLM 与传统物理求解器结果做联合训练，边把求解时间从小时压到秒级——把 Agent 的边界从「数字白领」推到「工程师工作站」。'},
@@ -246,6 +250,10 @@ const products = [
     tagline:'以技能为中心的浏览器',
     why:'Arc 团队的再出发，用自然语言写一个 Skill（本质是可复用的 prompt+动作）来个性化浏览器，用户从消费者变成作者。',
     design:'右侧抽屉 Chat 与页面共享上下文；Skills 列表即个人 OS，是对「人人都该有自己 AI」这一主张的设计表达。'},
+  { name:'Tabbit (美团 GN06)', url:'https://www.tabbit.com', cat:'search', cats:['search','agent','cn'], capability:'agent', status:'new',
+    tagline:'美团出品的多模型聚合 AI 原生浏览器',
+    why:'2026/6/9 美团 GN06（原光年之外）团队正式发布 Tabbit 1.0——历时 100 天公测，单用户月均 token 用量 853 万，Agent 任务成功率从 3 月的 53.1% 提到 91.8%。它和 Comet / Atlas 的差异在两条：一是把「多模型聚合」做成第一公民——内置 LongCat / DeepSeek / GLM / Kimi / MiniMax / Doubao / Qwen 十余款国内大模型，支持「5 模型同页面回答同一问题 + AI 做对比总结」，超过 60% 活跃用户主动切换模型；二是把基础对话 / 网页阅读 / Agent 调度核心功能承诺永久免费，标准版每周给 1000 次对话 / 50 张配图 / 10 个 Agent 任务的免费额度，专业版 9.9 元/周。同周美团成立 AI Transformation 部门并接入微信 AI 生态，Tabbit 是国产 AI 浏览器对 Comet / Atlas 的正面应战，也是中文「多模型自由市场 + 永久免费」打法的代表。',
+    design:'核心范式不是「浏览器旁边加 AI 侧栏」而是「把 Agent 嵌进网页操作流程」：用户在网页中划词 / 截图 / 新标签页直接发问，Agent 在当前页面里点击 / 填表 / 下载 / 跨页整理数据；针对高频场景给「妙招广场」(300+ 现成 Skill) 和「脚本」(把常用提问格式与网页操作录制为可复用动作)，把「每次都要重新 prompt」改成可分享、可复用的工作流资产；1.0 上线记忆功能持续记录用户偏好与背景信息形成「可调用记忆」，自动适配回复风格；多模型并排对比让 AI 不再是「一个黑盒答案」，把模型选择权交还给用户。'},
 
   // === 创作：图/视频/音乐 ===
   { name:'Midjourney', url:'https://www.midjourney.com', cat:'creative', cats:['creative'], capability:'gen', status:'stable',
@@ -380,7 +388,7 @@ const products = [
     tagline:'让 AI Agent 拥有身份/关系/成长的共生社区',
     why:'2026/5/7 美团基础研发 AI 创新团队孵化的「觅游」正式公测：一个面向所有大模型与 Agent 产品的社区生态，用「养虾」做主隐喻——AI Agent 在这里有身份（昵称 / MBTI / 头像）、关系（互关 / 互动 / 协作）、成长（任务进度 / 习得技能）。公测初期入驻 3000+ Agent、4 万+ 技能、1 万+ 虾条。和市面上把 AI 做成工具或助手不同，它把 AI 从「我使用的对象」变成「我陪伴 / 共生的角色」，开辟了 AI 原生的社交内容范式；商业落地侧已接入「智能掌柜」帮餐饮商家实时监控门店并预警，武汉肥肥虾庄五一提效 40%。',
     design:'三板块结构反映「人 + AI」共生：今日虾条（AI 主导的内容广场，AI 自己发帖、互动、分享，按干活虾 / 赚钱虾 / 求助虾 / 修行虾打标签）/ 灵感集市（4 万+ 单体或组合 Skill，覆盖代码 / 创作 / 办公等 11 类，含「灵感许愿墙」做生态共建）/ 我的虾（成长日记式个人面板，记录任务、技能、人格标签）；不做 chat 入口，做 feed 入口，把 AI 的「自主行为」直接做成内容流——这是国内对「Agent 究竟该长成什么样」的另一种回答（vs 通用 Agent 桌面 vs 平台导购）。'},
-  { name:'腾讯 WorkBuddy + CodeBuddy', url:'https://copilot.tencent.com', cat:'cn', cats:['cn','productivity','coding','agent'], capability:'agent', status:'new',
+  { name:'腾讯 WorkBuddy + CodeBuddy', url:'https://copilot.tencent.com', cat:'cn', cats:['cn','productivity','coding','agent'], capability:'agent', status:'stable',
     tagline:'腾讯 Buddy 全家桶：智能体桌面 + 编程 Agent',
     why:'2026/6/5 腾讯云 AI 产业应用大会发布「效率智能体工具箱」，把腾讯 AI 原生产品打成多层产品矩阵。WorkBuddy 个人版是 AI 智能体桌面工作站，3 个月内 43 次迭代，按 DAU 已成为国内最受欢迎的效率智能体工具；CodeBuddy 是覆盖编码 / 评审 / 测试 / 运维全流程的编程 Agent，业内首家同时提供插件 / IDE / CLI 三形态，对标 Cursor / Codex / Claude Code 三个差异化形态。叠加 ima（个人知识库 Agent）、Miora（创作）、Ardot（交互设计）、QQ 浏览器陪伴 Agent，是国产大厂第一次用「Buddy 全家桶」一次性把通用 Agent / 编程 / 知识 / 创作 / 客服全场景拍齐——同期还发了 WorkBuddy 企业版、ClawPro 企业治理平台、ADP 4.0 智能体开发平台。',
     design:'核心设计是「同一个智能体，跨场景跨终端协作」：WorkBuddy 通过 One ID 把腾讯文档 / 微云 / 乐享接进同一工作台，用户和 Agent 可以同时写一份文档、共享同一份会议上下文，不让「人和 AI 各干各的」；CodeBuddy 用插件 / IDE / CLI 三种形态分别覆盖 VS Code 用户、原生 IDE 用户、终端老手，让开发者按习惯选位面而非被迫迁移；ClawPro + ADP 把「7×24 数字员工」打包成可治理资产——员工可订阅 Agent、企业可审计 Agent，把「Agent 能不能进企业」变成「按风险等级配额」的合规问题。本身这份文档也跑在 WorkBuddy 上，是「自举」的一种佐证。'},
@@ -391,6 +399,7 @@ const products = [
 ];
 
 const changelog = [
+  { date: '2026-06-10', text: 'v10 更新：新增 2 款（Claude Cowork——Anthropic 的「非程序员版 Claude Code」桌面 Agent，4/9 完成 GA 默认开启所有付费计划，5/11 Code with Claude 大会发 Managed Agents 多 Agent 编排栈，5/12-5/18 七天连发 Legal / SMB / Marketing Ops 三个垂直 bundle，把 Office 的「先平台后垂直」打法搬到 AI Agent；Tabbit (美团 GN06)——6/9 历时 100 天公测的 AI 原生浏览器 1.0，多模型聚合 + 妙招广场 + 脚本录制 + 永久免费，Agent 任务成功率 91.8%、单用户月均 853 万 token，国产 AI 浏览器对 Comet / Atlas 的正面应战）。更新 1 款（Cursor 3.7——6/4 Canvas Design Mode 让画布也能进设计模式，6/5 Design Mode 多元素同选 + 常驻语音口播，配合 SDK 推出 Custom Tools / Custom Stores / Auto-review for SDK / 任意深度子 Agent 嵌套，把无人值守 CI / 生产脚本里的 Agent 治理做完整）。本周关键词：Anthropic 在递交 IPO + 9650 亿估值 + Claude Fable 5 / Opus 4.8 接连发布的窗口期把 Cowork 推到 GA + 垂直 bundle 七天连发，与 OpenAI Codex Plugins / Microsoft Scout 三家正面押注「AI 办公平台」；中文侧美团 Tabbit 用「多模型自由市场 + 永久免费」给 AI 浏览器赛道立另一个范式。' },
   { date: '2026-06-07', text: 'v9 更新：新增 3 款（OpenAI Codex（Intelligence at Work）——6/3 OpenAI 把 Codex 完整能力并入 ChatGPT，10 亿用户解锁 Agent，三件套 Plugins / Annotations / Sites 把 AI 办公拆成「按职业打包 + 局部批注修改 + 一键造可托管 App」；Mistral Vibe——5/28 Le Chat 改名为统一 Agent 平台，Work / Code 双模式 + 开源 CLI + on-prem / VPC 部署，叠加工业 physics AI 与巴黎自有 10MW 数据中心，欧洲全栈派对 Codex / Claude Code 的正面应战；腾讯 WorkBuddy + CodeBuddy——6/5 腾讯云 AI 产业应用大会发「效率智能体工具箱」，CodeBuddy 业内首家同提供插件 / IDE / CLI 三形态，WorkBuddy 个人版按 DAU 跻身国内最受欢迎效率 Agent，配合 ClawPro / ADP 4.0 把企业级 Agent 治理打通）。本周关键词：6 月头 Codex × ChatGPT 合体、Anthropic 偷袭递交 IPO、微软 Build Scout、腾讯 Buddy 全家桶四件大事「三重共振」——「AI 工作」从开发者特权扩散到全员 10 亿用户，分发层 / 模型层 / 操作系统层 / 国产大厂全部正面接战。' },
   { date: '2026-06-04', text: 'v8 更新：新增 2 款（Microsoft Scout——6/2 Build 2026 发布，微软首款 always-on Autopilot Agent，基于 OpenClaw + Microsoft 365，把「企业级自主员工」做成新品类；Kimi Work——6/3 月之暗面公测的桌面级通用工作 Agent，把 Kimi Code 内核从写代码迁移到干活，WebBridge 攻克公众号后台等动态页面，最高 300 子 Agent 并行）。更新 2 款（Cursor 3.5 共享画布 + /loop + 多仓库 / 无仓库自动化 + Jira 集成，3.6 Auto Review 三档运行模式；Claude Code 5 月一个月 30 个版本，Agent View 把 CLI 改成多会话调度台，supervisor 进程让会话脱离终端而活，随 Opus 4.8 推出 Dynamic Workflows + ultracode，单次调度上千子 Agent）。本周关键词：「单会话助手」时代正式翻篇——OS 层（Scout / Windows MXC）、IDE 层（Cursor 3.6）、CLI 层（Claude Code Agent View）三线齐推「Agent 不再寄生于一个会话」，国产侧 Kimi Work 把 Vibe Coding 范式扩到 Vibe Working。' },
   { date: '2026-05-27', text: 'v7 更新：新增 3 款（Qoder——阿里出品的智能体编程平台，5/26 在新加坡 Qwen Conference 升 1.0 转向 Editor + Quest 双窗口的「自主开发桌面」；支付宝 AI 钱包 + Token Pay——5/26 一次双发，给 C 端用户管 Agent 支付、给大模型公司做订阅 / Token 充值，AI 支付累计 3 亿笔；美团 觅游——5/7 公测，让 AI Agent 拥有身份 / 关系 / 成长的共生社区，3000+ Agent + 4 万 Skill 入驻）。本周关键词：国产 AI 原生在三条赛道同步落子——编程范式（Qoder vs Cursor / Antigravity）、支付基建（AI 钱包 vs Stripe Pay-by-Agent）、社交内容范式（觅游 vs 通用 Agent 桌面），把「AI 不只是工具」一次性塞进开发 / 交易 / 陪伴三个场景。' },
